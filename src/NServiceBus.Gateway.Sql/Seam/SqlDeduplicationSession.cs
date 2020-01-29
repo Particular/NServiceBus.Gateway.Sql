@@ -1,16 +1,60 @@
 ﻿using System;
+using System.Data;
+using System.Data.Common;
 using System.Threading.Tasks;
 
 namespace NServiceBus.Gateway.Sql
 {
     class SqlDeduplicationSession : IDeduplicationSession
     {
-        public bool IsDuplicate => throw new NotImplementedException();
+        readonly string messageId;
+        readonly SqlSettings settings;
 
-        public Task MarkAsDispatched()
+        DbConnection connection;
+        DbTransaction transaction; 
+
+        public SqlDeduplicationSession(string messageId, SqlSettings settings)
         {
-            throw new NotImplementedException();
+            this.messageId = messageId;
+            this.settings = settings;
         }
+
+        public bool IsDuplicate
+        {
+            get
+            {
+                OpenConnection();
+
+                using (var cmd = settings.GetIsDuplicateCommand(connection, transaction, messageId))
+                {
+                    var result = cmd.ExecuteScalar();
+                    return result != null;
+                }
+            }
+        }
+
+        public async Task MarkAsDispatched()
+        {
+            OpenConnection();
+
+            using (var cmd = settings.GetMarkAsDispatchedCommand(connection, transaction, messageId))
+            {
+                await cmd.ExecuteNonQueryAsync();
+            }
+
+            transaction.Commit();
+        }
+
+        void OpenConnection()
+        {
+            if(connection == null)
+            {
+                connection = settings.CreateConnection();
+                connection.Open();
+                transaction = connection.BeginTransaction(IsolationLevel.ReadCommitted);
+            }
+        }
+
 
         #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls
@@ -21,7 +65,8 @@ namespace NServiceBus.Gateway.Sql
             {
                 if (disposing)
                 {
-                    // TODO: dispose managed state (managed objects).
+                    transaction?.Dispose();
+                    connection?.Dispose();
                 }
 
                 // TODO: set large fields to null.

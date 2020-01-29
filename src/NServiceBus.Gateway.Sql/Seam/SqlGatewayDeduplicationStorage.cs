@@ -6,11 +6,19 @@ namespace NServiceBus.Gateway.Sql
 {
     class SqlGatewayDeduplicationStorage : IGatewayDeduplicationStorage
     {
+        readonly SqlSettings settings;
+
+        public SqlGatewayDeduplicationStorage(SqlSettings settings)
+        {
+            this.settings = settings;
+        }
+
         public bool SupportsDistributedTransactions => true;
 
         public Task<IDeduplicationSession> CheckForDuplicate(string messageId, ContextBag context)
         {
-            throw new NotImplementedException();
+            return Task.FromResult<IDeduplicationSession>(
+                new SqlDeduplicationSession(messageId, settings));
         }
     }
 }
