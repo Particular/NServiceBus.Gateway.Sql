@@ -1,4 +1,5 @@
 ﻿using NServiceBus.Extensibility;
+using NServiceBus.ObjectBuilder;
 using System;
 using System.Threading.Tasks;
 
@@ -7,9 +8,11 @@ namespace NServiceBus.Gateway.Sql
     class SqlGatewayDeduplicationStorage : IGatewayDeduplicationStorage
     {
         readonly SqlSettings settings;
+        readonly IBuilder builder;
 
-        public SqlGatewayDeduplicationStorage(SqlSettings settings)
+        public SqlGatewayDeduplicationStorage(IBuilder builder, SqlSettings settings)
         {
+            this.builder = builder;
             this.settings = settings;
         }
 
@@ -18,7 +21,7 @@ namespace NServiceBus.Gateway.Sql
         public Task<IDeduplicationSession> CheckForDuplicate(string messageId, ContextBag context)
         {
             return Task.FromResult<IDeduplicationSession>(
-                new SqlDeduplicationSession(messageId, settings));
+                new SqlDeduplicationSession(builder, messageId, settings));
         }
     }
 }

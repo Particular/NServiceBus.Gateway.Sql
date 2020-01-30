@@ -12,7 +12,7 @@ namespace NServiceBus.Gateway.AcceptanceTests
             var connectionString = "Server=hostos;Database=nservicebus;User=sa;Password=NServiceBus!";
 
             var config = new SqlGatewayDeduplicationConfiguration();
-            config.ConnectionBuilder(() => new SqlConnection(connectionString));
+            config.ConnectionBuilder(builder => new SqlConnection(connectionString));
 
             return Task.FromResult<GatewayDeduplicationConfiguration>(config);
         }

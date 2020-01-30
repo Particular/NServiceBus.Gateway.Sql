@@ -67,7 +67,7 @@ namespace NServiceBus.Gateway.Sql
 
             var sqlSettings = new SqlSettings(connectionBuilder, schema, tableName);
 
-            return new SqlGatewayDeduplicationStorage(sqlSettings);
+            return new SqlGatewayDeduplicationStorage(builder, sqlSettings);
         }
     }
 }
