@@ -14,6 +14,9 @@ namespace NServiceBus.Gateway.AcceptanceTests
             // https://docs.microsoft.com/en-us/dotnet/framework/migration-guide/mitigation-deserialization-of-objects-across-app-domains
             System.Configuration.ConfigurationManager.GetSection("dummy");
 #endif
+
+            DatabaseUtil.DropDbIfCollationIncorrect();
+            DatabaseUtil.CreateDbIfNotExists();
         }
     }
 }

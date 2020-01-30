@@ -4,6 +4,7 @@
     <TargetFrameworks>net461;netcoreapp2.1</TargetFrameworks>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <NoWarn>$(NoWarn);NU1701</NoWarn>
+    <DefineConstants>MicrosoftDataClient</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,6 +23,10 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
     <PackageReference Include="NUnit" Version="3.12.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.12.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\AcceptanceTestsShared\**\*.cs" Link="Shared\%(RecursiveDir)\%(Filename).%(Extension)" />
   </ItemGroup>
 
 </Project>
