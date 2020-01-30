@@ -1,6 +1,7 @@
 ﻿using NServiceBus.ObjectBuilder;
 using NServiceBus.Settings;
 using System;
+using System.Data.Common;
 
 namespace NServiceBus.Gateway.Sql
 {
@@ -9,23 +10,25 @@ namespace NServiceBus.Gateway.Sql
     /// </summary>
     public class SqlGatewayDeduplicationConfiguration : GatewayDeduplicationConfiguration
     {
-        string connectionString;
+        Func<IBuilder, DbConnection> connectionBuilder;
         string schema = "dbo";
         string tableName = "GatewayDeduplication";
 
         /// <summary>
-        /// Configures the connection string to use for the deduplication storage.
+        /// TODO
         /// </summary>
-        public string ConnectionString
+        public void ConnectionBuilder(Func<DbConnection> connectionBuilder)
         {
-            get => connectionString;
-            set
-            {
-                Guard.AgainstNullAndEmpty(nameof(value), value);
-                connectionString = value;
-            }
+            this.connectionBuilder = _ => connectionBuilder();
         }
 
+        /// <summary>
+        /// TODO
+        /// </summary>
+        public void ConnectionBuilder(Func<IBuilder, DbConnection> connectionBuilder)
+        {
+            this.connectionBuilder = connectionBuilder;
+        }
 
         /// <summary>
         /// Configures the schema to use for the deduplication storage. Defaults to `dbo`.
@@ -56,13 +59,13 @@ namespace NServiceBus.Gateway.Sql
         /// <inheritdoc />
         public override IGatewayDeduplicationStorage CreateStorage(IBuilder builder)
         {
-            if(string.IsNullOrEmpty(connectionString))
+            if(connectionBuilder == null)
             {
                 // TODO: Better exception
-                throw new Exception("No connection string");
+                throw new Exception("No connection builder");
             }
 
-            var sqlSettings = new SqlSettings(connectionString, schema, tableName);
+            var sqlSettings = new SqlSettings(connectionBuilder, schema, tableName);
 
             return new SqlGatewayDeduplicationStorage(sqlSettings);
         }

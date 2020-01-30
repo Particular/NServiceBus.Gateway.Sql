@@ -1,6 +1,6 @@
 ﻿using NServiceBus.AcceptanceTesting.Support;
 using NServiceBus.Gateway.Sql;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Threading.Tasks;
 
 namespace NServiceBus.Gateway.AcceptanceTests
