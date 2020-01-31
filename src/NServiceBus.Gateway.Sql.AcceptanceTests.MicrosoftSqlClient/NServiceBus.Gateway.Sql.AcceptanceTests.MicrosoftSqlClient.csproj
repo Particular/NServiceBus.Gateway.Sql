@@ -3,7 +3,6 @@
   <PropertyGroup>
     <TargetFrameworks>net461;netcoreapp2.1</TargetFrameworks>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-    <NoWarn>$(NoWarn);NU1701</NoWarn>
     <DefineConstants>MicrosoftDataClient</DefineConstants>
   </PropertyGroup>
 
@@ -12,17 +11,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="NServiceBus.AcceptanceTesting" Version="7.2.0" />
+    <PackageReference Include="NServiceBus.AcceptanceTesting" Version="7.2.1" />
     <PackageReference Include="NServiceBus.Gateway.AcceptanceTests.Sources" Version="3.2.0-alpha0006" />
-    <PackageReference Include="NServiceBus.AcceptanceTesting" Version="[7.2.0, 8.0.0)" />
-    <PackageReference Include="NServiceBus.Callbacks" Version="[3.0.0, 4.0.0)" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="1.1.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.4.0" />
     <PackageReference Include="NUnit" Version="3.12.0" />
-    <PackageReference Include="NUnit3TestAdapter" Version="3.12.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.16.1" />
   </ItemGroup>
 
   <ItemGroup>
