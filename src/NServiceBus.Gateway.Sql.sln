@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NServiceBus.Gateway.Sql.Acc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NServiceBus.Gateway.Sql.AcceptanceTests.MicrosoftSqlClient", "NServiceBus.Gateway.Sql.AcceptanceTests.MicrosoftSqlClient\NServiceBus.Gateway.Sql.AcceptanceTests.MicrosoftSqlClient.csproj", "{C10CF307-91AC-4C39-A120-2C490AC71948}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NServiceBus.Gateway.Sql.Tests", "NServiceBus.Gateway.Sql.Tests\NServiceBus.Gateway.Sql.Tests.csproj", "{80B3C386-015F-44FE-9DEE-803CD36B4398}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{C10CF307-91AC-4C39-A120-2C490AC71948}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C10CF307-91AC-4C39-A120-2C490AC71948}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C10CF307-91AC-4C39-A120-2C490AC71948}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80B3C386-015F-44FE-9DEE-803CD36B4398}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80B3C386-015F-44FE-9DEE-803CD36B4398}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80B3C386-015F-44FE-9DEE-803CD36B4398}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80B3C386-015F-44FE-9DEE-803CD36B4398}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
