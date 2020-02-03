@@ -1,14 +1,14 @@
-﻿namespace NServiceBus.Gateway.AcceptanceTests
-{
-    using NServiceBus.AcceptanceTesting.Support;
-    using NServiceBus.Gateway.Sql;
+﻿using NServiceBus.AcceptanceTesting.Support;
+using NServiceBus.Gateway.Sql;
 #if MicrosoftDataClient
     using Microsoft.Data.SqlClient;
 #elif SystemDataClient
-    using System.Data.SqlClient;
+using System.Data.SqlClient;
 #endif
-    using System.Threading.Tasks;
+using System.Threading.Tasks;
 
+namespace NServiceBus.Gateway.AcceptanceTests
+{
     public partial class GatewayTestSuiteConstraints
     {
         public Task<GatewayDeduplicationConfiguration> ConfigureDeduplicationStorage(string endpointName, EndpointConfiguration configuration, RunSettings settings)
