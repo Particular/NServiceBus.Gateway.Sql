@@ -1,9 +1,7 @@
 ﻿namespace NServiceBus.Gateway.Sql
 {
     using NServiceBus.ObjectBuilder;
-    using NServiceBus.Settings;
     using System;
-    using System.Data;
     using System.Data.Common;
 
     /// <summary>

@@ -1,6 +1,5 @@
-﻿namespace NServiceBus.Gateway.Sql.Tests.API
+﻿namespace NServiceBus.Gateway.Sql
 {
-    using NServiceBus.Gateway.Sql;
     using NUnit.Framework;
     using Particular.Approvals;
     using PublicApiGenerator;
