@@ -21,7 +21,7 @@ namespace NServiceBus.Gateway.Sql
     Justification = "String formatting only for schema and table name")]
         public async Task Install(string identity)
         {
-            var config = settings.Get<GatewayDeduplicationConfiguration>() as SqlGatewayDeduplicationConfiguration;
+            var config = settings.GetOrDefault<GatewayDeduplicationConfiguration>() as SqlGatewayDeduplicationConfiguration;
 
             if(config == null)
             {
