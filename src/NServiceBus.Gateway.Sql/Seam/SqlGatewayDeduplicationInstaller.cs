@@ -28,18 +28,18 @@ namespace NServiceBus.Gateway.Sql
                 return;
             }
 
-            var sql = $@"
-declare @ObjectId int = object_id('[{config.Schema}].[{config.TableName}]')
+            var fullName = $"[{config.Schema}].[{config.TableName}]";
 
+            var sql = $@"
 if not exists (
 	select * from sys.objects
 	where
-		object_id = @ObjectId
+		object_id = object_id('{fullName}')
 		and type = 'U'
 )
 begin
 	
-	create table [{config.Schema}].[{config.TableName}] (
+	create table {fullName} (
 		Id nvarchar(255) not null primary key clustered,
 		TimeReceived datetime null
 	)
@@ -51,12 +51,12 @@ if not exists (
 	from sys.indexes
 	where
 		name = 'Index_TimeReceived'
-		and object_id = @ObjectId
+		and object_id = object_id('{fullName}')
 )
 begin
 
 	create index Index_TimeReceived
-	on [{config.Schema}].[{config.TableName}] (TimeReceived asc)
+	on object_id('{fullName}') (TimeReceived asc)
 
 end";
             using (var connection = config.connectionBuilder(builder))
