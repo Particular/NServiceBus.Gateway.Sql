@@ -1,7 +1,7 @@
-﻿namespace NServiceBus.Gateway.AcceptanceTests
-{
-    using NUnit.Framework;
+﻿using NUnit.Framework;
 
+namespace NServiceBus.Gateway.AcceptanceTests
+{
     [SetUpFixture]
     public class SetupFixture
     {

@@ -1,11 +1,11 @@
-﻿namespace NServiceBus.Gateway.Sql
-{
-    using NServiceBus.Installation;
-    using NServiceBus.ObjectBuilder;
-    using NServiceBus.Settings;
-    using System.Data;
-    using System.Threading.Tasks;
+﻿using NServiceBus.Installation;
+using NServiceBus.ObjectBuilder;
+using NServiceBus.Settings;
+using System.Data;
+using System.Threading.Tasks;
 
+namespace NServiceBus.Gateway.Sql
+{
     class SqlGatewayDeduplicationInstaller : INeedToInstallSomething
     {
         readonly ReadOnlySettings settings;

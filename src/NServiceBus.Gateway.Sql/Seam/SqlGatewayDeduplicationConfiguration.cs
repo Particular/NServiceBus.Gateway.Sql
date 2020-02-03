@@ -1,9 +1,9 @@
-﻿namespace NServiceBus.Gateway.Sql
-{
-    using NServiceBus.ObjectBuilder;
-    using System;
-    using System.Data.Common;
+﻿using NServiceBus.ObjectBuilder;
+using System;
+using System.Data.Common;
 
+namespace NServiceBus.Gateway.Sql
+{
     /// <summary>
     /// Configuration class for the SQL gateway deduplication storage
     /// </summary>

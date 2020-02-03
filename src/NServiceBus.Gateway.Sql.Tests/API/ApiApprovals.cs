@@ -1,9 +1,9 @@
-﻿namespace NServiceBus.Gateway.Sql
-{
-    using NUnit.Framework;
-    using Particular.Approvals;
-    using PublicApiGenerator;
+﻿using NUnit.Framework;
+using Particular.Approvals;
+using PublicApiGenerator;
 
+namespace NServiceBus.Gateway.Sql
+{
     [TestFixture]
     class ApiApprovals
     {

@@ -1,7 +1,7 @@
-﻿namespace NServiceBus.Gateway.Sql
-{
-    using System.Data.Common;
+﻿using System.Data.Common;
 
+namespace NServiceBus.Gateway.Sql
+{
     static class DbCommandExtensions
     {
         public static void AddParameter(this DbCommand cmd, string name, object value)

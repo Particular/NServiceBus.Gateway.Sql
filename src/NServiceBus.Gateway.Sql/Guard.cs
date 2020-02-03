@@ -1,8 +1,8 @@
-﻿namespace NServiceBus
-{
-    using System;
-    using System.Collections;
+﻿using System;
+using System.Collections;
 
+namespace NServiceBus
+{
     static class Guard
     {
         public static void AgainstNull(string argumentName, object value)

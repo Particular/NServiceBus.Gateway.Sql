@@ -1,10 +1,10 @@
-﻿namespace NServiceBus
-{
-    using NServiceBus.Gateway;
-    using NServiceBus.Gateway.Sql;
-    using System.Data.Common;
-    using System.Threading.Tasks;
+﻿using NServiceBus.Gateway;
+using NServiceBus.Gateway.Sql;
+using System.Data.Common;
+using System.Threading.Tasks;
 
+namespace NServiceBus
+{
     class SqlDeduplicationSession : IDeduplicationSession
     {
         readonly string messageId;
