@@ -1,11 +1,10 @@
-﻿using NServiceBus.ObjectBuilder;
-using System;
-using System.Data;
-using System.Data.Common;
-using System.Threading.Tasks;
-
-namespace NServiceBus.Gateway.Sql
+﻿namespace NServiceBus
 {
+    using NServiceBus.Gateway;
+    using NServiceBus.Gateway.Sql;
+    using System.Data.Common;
+    using System.Threading.Tasks;
+
     class SqlDeduplicationSession : IDeduplicationSession
     {
         readonly string messageId;

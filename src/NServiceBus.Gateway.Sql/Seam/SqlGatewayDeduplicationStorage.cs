@@ -1,12 +1,11 @@
-﻿using NServiceBus.Extensibility;
-using NServiceBus.ObjectBuilder;
-using System;
-using System.Data;
-using System.Data.Common;
-using System.Threading.Tasks;
-
-namespace NServiceBus.Gateway.Sql
+﻿namespace NServiceBus.Gateway.Sql
 {
+    using NServiceBus.Extensibility;
+    using NServiceBus.ObjectBuilder;
+    using System.Data;
+    using System.Data.Common;
+    using System.Threading.Tasks;
+
     class SqlGatewayDeduplicationStorage : IGatewayDeduplicationStorage
     {
         readonly SqlSettings settings;
