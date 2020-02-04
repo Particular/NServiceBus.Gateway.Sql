@@ -23,6 +23,8 @@ namespace NServiceBus.Gateway.Sql
         {
             var connection = settings.ConnectionBuilder(builder);
             await connection.OpenAsync().ConfigureAwait(false);
+
+            // DbTransaction gets Async overloads starting in netstandard2.1/netcoreapp3.0
             var transaction = connection.BeginTransaction(IsolationLevel.ReadCommitted);
 
             var distributedTransaction = System.Transactions.Transaction.Current;
