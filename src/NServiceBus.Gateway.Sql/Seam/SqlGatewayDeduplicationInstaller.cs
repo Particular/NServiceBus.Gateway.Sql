@@ -61,13 +61,13 @@ begin
 end";
             using (var connection = config.connectionBuilder(builder))
             {
-                await connection.OpenAsync();
+                await connection.OpenAsync().ConfigureAwait(false);
                 using (var transaction = connection.BeginTransaction(IsolationLevel.ReadCommitted))
                 using (var cmd = connection.CreateCommand())
                 {
                     cmd.Transaction = transaction;
                     cmd.CommandText = sql;
-                    await cmd.ExecuteNonQueryAsync();
+                    await cmd.ExecuteNonQueryAsync().ConfigureAwait(false);
                     transaction.Commit();
                 }
             }    

@@ -22,7 +22,7 @@ namespace NServiceBus.Gateway.Sql
         public async Task<IDeduplicationSession> CheckForDuplicate(string messageId, ContextBag context)
         {
             var connection = settings.ConnectionBuilder(builder);
-            await connection.OpenAsync();
+            await connection.OpenAsync().ConfigureAwait(false);
             var transaction = connection.BeginTransaction(IsolationLevel.ReadCommitted);
 
             var distributedTransaction = System.Transactions.Transaction.Current;
@@ -31,7 +31,7 @@ namespace NServiceBus.Gateway.Sql
                 connection.EnlistTransaction(distributedTransaction);
             }
 
-            var isDuplicate = await IsDuplicate(connection, transaction, messageId);
+            var isDuplicate = await IsDuplicate(connection, transaction, messageId).ConfigureAwait(false);
 
             return new SqlDeduplicationSession(messageId, settings, isDuplicate, connection, transaction);
         }
@@ -46,7 +46,7 @@ namespace NServiceBus.Gateway.Sql
                 cmd.CommandText = settings.IsDuplicateSql;
                 cmd.AddParameter("Id", messageId);
 
-                var result = await cmd.ExecuteScalarAsync();
+                var result = await cmd.ExecuteScalarAsync().ConfigureAwait(false);
                 return result != null;
             }
         }

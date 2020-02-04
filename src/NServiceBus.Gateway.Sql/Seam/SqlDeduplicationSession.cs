@@ -34,7 +34,7 @@ namespace NServiceBus
                 cmd.CommandText = settings.MarkDispatchedSql;
                 cmd.AddParameter("Id", messageId);
 
-                await cmd.ExecuteNonQueryAsync();
+                await cmd.ExecuteNonQueryAsync().ConfigureAwait(false);
             }
 
             transaction.Commit();
