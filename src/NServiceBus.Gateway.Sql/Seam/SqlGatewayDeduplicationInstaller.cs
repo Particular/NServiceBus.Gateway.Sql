@@ -56,7 +56,7 @@ if not exists (
 begin
 
 	create index Index_TimeReceived
-	on object_id('{fullName}') (TimeReceived asc)
+	on {fullName} (TimeReceived asc)
 
 end";
             using (var connection = config.connectionBuilder(builder))
