@@ -1,11 +1,12 @@
-﻿using NServiceBus.AcceptanceTesting.Support;
-using NServiceBus.Gateway.Sql;
-#if MicrosoftDataClient
-    using Microsoft.Data.SqlClient;
+﻿#if MicrosoftDataClient
+using Microsoft.Data.SqlClient;
 #elif SystemDataClient
 using System.Data.SqlClient;
 #endif
+using NServiceBus.AcceptanceTesting.Support;
+using NServiceBus.Gateway.Sql;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace NServiceBus.Gateway.AcceptanceTests
 {
@@ -16,6 +17,7 @@ namespace NServiceBus.Gateway.AcceptanceTests
             var connectionString = DatabaseUtil.GetConnectionString();
 
             var config = new SqlGatewayDeduplicationConfiguration();
+            config.TableName = Regex.Replace(endpointName, "[^A-Za-z0-9]+", "") + "_GatewayDeduplication";
             config.ConnectionBuilder(builder => new SqlConnection(connectionString));
 
             return Task.FromResult<GatewayDeduplicationConfiguration>(config);
