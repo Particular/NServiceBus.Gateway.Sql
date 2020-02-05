@@ -1,0 +1,12 @@
+namespace NServiceBus.Gateway.Sql
+{
+    public class SqlGatewayDeduplicationConfiguration : NServiceBus.Gateway.GatewayDeduplicationConfiguration
+    {
+        public SqlGatewayDeduplicationConfiguration() { }
+        public string Schema { get; set; }
+        public string TableName { get; set; }
+        public void ConnectionBuilder(System.Func<System.Data.Common.DbConnection> connectionBuilder) { }
+        public void ConnectionBuilder(System.Func<NServiceBus.ObjectBuilder.IBuilder, System.Data.Common.DbConnection> connectionBuilder) { }
+        public override NServiceBus.Gateway.IGatewayDeduplicationStorage CreateStorage(NServiceBus.ObjectBuilder.IBuilder builder) { }
+    }
+}

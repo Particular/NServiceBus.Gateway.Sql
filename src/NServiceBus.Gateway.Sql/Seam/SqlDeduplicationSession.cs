@@ -1,15 +1,43 @@
-﻿using System;
+﻿using NServiceBus.Gateway;
+using NServiceBus.Gateway.Sql;
+using System.Data.Common;
 using System.Threading.Tasks;
 
-namespace NServiceBus.Gateway.Sql
+namespace NServiceBus
 {
     class SqlDeduplicationSession : IDeduplicationSession
     {
-        public bool IsDuplicate => throw new NotImplementedException();
+        readonly string messageId;
+        readonly SqlSettings settings;
+        readonly DbConnection connection;
+        readonly DbTransaction transaction; 
 
-        public Task MarkAsDispatched()
+        public SqlDeduplicationSession(string messageId, SqlSettings settings, bool isDuplicate, DbConnection connection, DbTransaction transaction)
         {
-            throw new NotImplementedException();
+            this.messageId = messageId;
+            this.settings = settings;
+            this.connection = connection;
+            this.transaction = transaction;
+
+            IsDuplicate = isDuplicate;
+        }
+
+        public bool IsDuplicate { get; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Security", "CA2100:Review SQL queries for security vulnerabilities",
+            Justification = "String formatting only for schema and table name")]
+        public async Task MarkAsDispatched()
+        {
+            using (var cmd = connection.CreateCommand())
+            {
+                cmd.Transaction = transaction;
+                cmd.CommandText = settings.MarkDispatchedSql;
+                cmd.AddParameter("Id", messageId);
+
+                await cmd.ExecuteNonQueryAsync().ConfigureAwait(false);
+            }
+
+            transaction.Commit();
         }
 
         #region IDisposable Support
@@ -21,11 +49,9 @@ namespace NServiceBus.Gateway.Sql
             {
                 if (disposing)
                 {
-                    // TODO: dispose managed state (managed objects).
+                    transaction?.Dispose();
+                    connection?.Dispose();
                 }
-
-                // TODO: set large fields to null.
-
                 disposedValue = true;
             }
         }
