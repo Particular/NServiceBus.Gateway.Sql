@@ -1,8 +1,10 @@
-﻿using NServiceBus.ObjectBuilder;
+﻿using NServiceBus.Gateway;
+using NServiceBus.Gateway.Sql;
+using NServiceBus.ObjectBuilder;
 using System;
 using System.Data.Common;
 
-namespace NServiceBus.Gateway.Sql
+namespace NServiceBus
 {
     /// <summary>
     /// Configuration class for the SQL gateway deduplication storage
