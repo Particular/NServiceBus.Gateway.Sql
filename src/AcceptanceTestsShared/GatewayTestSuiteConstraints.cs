@@ -4,7 +4,6 @@ using Microsoft.Data.SqlClient;
 using System.Data.SqlClient;
 #endif
 using NServiceBus.AcceptanceTesting.Support;
-using NServiceBus.Gateway.Sql;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 
