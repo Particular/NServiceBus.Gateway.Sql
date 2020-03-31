@@ -13,7 +13,6 @@ CommonAssemblyInfo.cs
 lib/sqlite/System.Data.SQLite.dll
 *.orig
 *.zip
-databus
 Samples/DataBus/storage
 packages
 PrecompiledWeb
