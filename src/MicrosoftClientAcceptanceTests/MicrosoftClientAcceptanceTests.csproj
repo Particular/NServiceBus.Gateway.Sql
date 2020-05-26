@@ -4,6 +4,7 @@
     <TargetFrameworks>net461;netcoreapp3.1</TargetFrameworks>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <DefineConstants>MicrosoftDataClient</DefineConstants>
+    <NoWarn>0618</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
