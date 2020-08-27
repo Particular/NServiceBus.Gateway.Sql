@@ -1,16 +1,16 @@
-﻿using NServiceBus.Gateway;
-using NServiceBus.Gateway.Sql;
-using System.Data.Common;
-using System.Threading.Tasks;
-
-namespace NServiceBus
+﻿namespace NServiceBus
 {
+    using Gateway;
+    using Gateway.Sql;
+    using System.Data.Common;
+    using System.Threading.Tasks;
+
     class SqlDeduplicationSession : IDeduplicationSession
     {
         readonly string messageId;
         readonly SqlSettings settings;
         readonly DbConnection connection;
-        readonly DbTransaction transaction; 
+        readonly DbTransaction transaction;
 
         public SqlDeduplicationSession(string messageId, SqlSettings settings, bool isDuplicate, DbConnection connection, DbTransaction transaction)
         {

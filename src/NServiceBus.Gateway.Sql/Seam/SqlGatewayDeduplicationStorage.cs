@@ -1,17 +1,17 @@
-﻿using NServiceBus.Extensibility;
-using NServiceBus.ObjectBuilder;
-using System.Data;
-using System.Data.Common;
-using System.Threading.Tasks;
-
-namespace NServiceBus.Gateway.Sql
+﻿namespace NServiceBus.Gateway.Sql
 {
+    using Extensibility;
+    using System;
+    using System.Data;
+    using System.Data.Common;
+    using System.Threading.Tasks;
+
     class SqlGatewayDeduplicationStorage : IGatewayDeduplicationStorage
     {
         readonly SqlSettings settings;
-        readonly IBuilder builder;
+        readonly IServiceProvider builder;
 
-        public SqlGatewayDeduplicationStorage(IBuilder builder, SqlSettings settings)
+        public SqlGatewayDeduplicationStorage(IServiceProvider builder, SqlSettings settings)
         {
             this.builder = builder;
             this.settings = settings;
@@ -38,7 +38,7 @@ namespace NServiceBus.Gateway.Sql
             return new SqlDeduplicationSession(messageId, settings, isDuplicate, connection, transaction);
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Security", "CA2100:Review SQL queries for security vulnerabilities", 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Security", "CA2100:Review SQL queries for security vulnerabilities",
             Justification = "String formatting only for schema and table name")]
         public async Task<bool> IsDuplicate(DbConnection connection, DbTransaction transaction, string messageId)
         {

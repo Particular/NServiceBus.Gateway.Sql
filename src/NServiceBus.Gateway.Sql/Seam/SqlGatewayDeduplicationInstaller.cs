@@ -1,17 +1,17 @@
-﻿using NServiceBus.Installation;
-using NServiceBus.ObjectBuilder;
-using NServiceBus.Settings;
-using System.Data;
-using System.Threading.Tasks;
-
-namespace NServiceBus.Gateway.Sql
+﻿namespace NServiceBus.Gateway.Sql
 {
-    class SqlGatewayDeduplicationInstaller : INeedToInstallSomething
+	using Installation;
+	using Settings;
+	using System;
+	using System.Data;
+	using System.Threading.Tasks;
+
+	class SqlGatewayDeduplicationInstaller : INeedToInstallSomething
     {
         readonly ReadOnlySettings settings;
-        readonly IBuilder builder;
+        readonly IServiceProvider builder;
 
-        public SqlGatewayDeduplicationInstaller(ReadOnlySettings settings, IBuilder builder)
+        public SqlGatewayDeduplicationInstaller(ReadOnlySettings settings, IServiceProvider builder)
         {
             this.settings = settings;
             this.builder = builder;
@@ -70,7 +70,7 @@ end";
                     await cmd.ExecuteNonQueryAsync().ConfigureAwait(false);
                     transaction.Commit();
                 }
-            }    
+            }
         }
     }
 }
