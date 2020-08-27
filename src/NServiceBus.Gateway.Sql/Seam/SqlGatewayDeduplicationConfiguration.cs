@@ -1,17 +1,16 @@
-﻿using NServiceBus.Gateway;
-using NServiceBus.Gateway.Sql;
-using NServiceBus.ObjectBuilder;
-using System;
-using System.Data.Common;
-
-namespace NServiceBus
+﻿namespace NServiceBus
 {
+    using Gateway;
+    using Gateway.Sql;
+    using System;
+    using System.Data.Common;
+
     /// <summary>
     /// Configuration class for the SQL gateway deduplication storage
     /// </summary>
     public class SqlGatewayDeduplicationConfiguration : GatewayDeduplicationConfiguration
     {
-        internal Func<IBuilder, DbConnection> connectionBuilder;
+        internal Func<IServiceProvider, DbConnection> connectionBuilder;
         string schema = "dbo";
         string tableName = "GatewayDeduplication";
 
@@ -26,7 +25,7 @@ namespace NServiceBus
         /// <summary>
         /// TODO
         /// </summary>
-        public void ConnectionBuilder(Func<IBuilder, DbConnection> connectionBuilder)
+        public void ConnectionBuilder(Func<IServiceProvider, DbConnection> connectionBuilder)
         {
             this.connectionBuilder = connectionBuilder;
         }
@@ -58,7 +57,7 @@ namespace NServiceBus
         }
 
         /// <inheritdoc />
-        public override IGatewayDeduplicationStorage CreateStorage(IBuilder builder)
+        public override IGatewayDeduplicationStorage CreateStorage(IServiceProvider builder)
         {
             if(connectionBuilder == null)
             {
