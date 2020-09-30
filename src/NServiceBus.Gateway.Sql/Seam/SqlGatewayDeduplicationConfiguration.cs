@@ -59,7 +59,7 @@
         /// <inheritdoc />
         public override IGatewayDeduplicationStorage CreateStorage(IServiceProvider builder)
         {
-            if(connectionBuilder == null)
+            if (connectionBuilder == null)
             {
                 // TODO: Better exception
                 throw new Exception("No connection builder");

@@ -23,7 +23,6 @@ public static class DatabaseUtil
         }
     }
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Security", "CA2100:Review SQL queries for security vulnerabilities", Justification = "<Pending>")]
     public static void DropDbIfCollationIncorrect()
     {
         var connectionStringBuilder = new SqlConnectionStringBuilder(GetConnectionString());
@@ -49,7 +48,6 @@ public static class DatabaseUtil
         }
     }
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Security", "CA2100:Review SQL queries for security vulnerabilities", Justification = "<Pending>")]
     public static void CreateDbIfNotExists()
     {
         var connectionStringBuilder = new SqlConnectionStringBuilder(GetConnectionString());
@@ -90,7 +88,6 @@ public static class DatabaseUtil
         return connection;
     }
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Security", "CA2100:Review SQL queries for security vulnerabilities", Justification = "<Pending>")]
     static void DropDatabase(string databaseName)
     {
         var connectionStringBuilder = new SqlConnectionStringBuilder(GetConnectionString());

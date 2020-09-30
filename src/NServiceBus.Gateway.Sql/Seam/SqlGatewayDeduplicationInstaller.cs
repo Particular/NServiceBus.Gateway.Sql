@@ -1,12 +1,12 @@
 ﻿namespace NServiceBus.Gateway.Sql
 {
-	using Installation;
-	using Settings;
-	using System;
-	using System.Data;
-	using System.Threading.Tasks;
+    using Installation;
+    using Settings;
+    using System;
+    using System.Data;
+    using System.Threading.Tasks;
 
-	class SqlGatewayDeduplicationInstaller : INeedToInstallSomething
+    class SqlGatewayDeduplicationInstaller : INeedToInstallSomething
     {
         readonly ReadOnlySettings settings;
         readonly IServiceProvider builder;
@@ -23,7 +23,7 @@
         {
             var config = settings.GetOrDefault<GatewayDeduplicationConfiguration>() as SqlGatewayDeduplicationConfiguration;
 
-            if(config == null)
+            if (config == null)
             {
                 return;
             }
