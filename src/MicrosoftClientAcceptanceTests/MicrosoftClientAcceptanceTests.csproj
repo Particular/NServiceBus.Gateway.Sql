@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="NServiceBus.AcceptanceTesting" Version="8.0.0-alpha.561" />
+    <PackageReference Include="NServiceBus.AcceptanceTesting" Version="8.0.0-alpha.591" />
     <PackageReference Include="NServiceBus.Gateway.AcceptanceTests.Sources" Version="4.0.0-alpha.162" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="2.0.1" />
   </ItemGroup>
