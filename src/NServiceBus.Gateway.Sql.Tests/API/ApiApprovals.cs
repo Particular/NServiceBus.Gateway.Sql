@@ -10,8 +10,7 @@ namespace NServiceBus.Gateway.Sql
         [Test]
         public void ApproveNServiceBusGatewaySqlApi()
         {
-
-            var publicApi = ApiGenerator.GeneratePublicApi(typeof(SqlGatewayDeduplicationConfiguration).Assembly, excludeAttributes: new[] { "System.Runtime.Versioning.TargetFrameworkAttribute" });
+            var publicApi = ApiGenerator.GeneratePublicApi(typeof(SqlGatewayDeduplicationConfiguration).Assembly, excludeAttributes: new[] { "System.Runtime.Versioning.TargetFrameworkAttribute", "System.Reflection.AssemblyMetadataAttribute" });
             Approver.Verify(publicApi);
         }
     }
