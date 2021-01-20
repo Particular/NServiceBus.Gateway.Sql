@@ -17,13 +17,9 @@
             this.builder = builder;
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Security", "CA2100:Review SQL queries for security vulnerabilities",
-    Justification = "String formatting only for schema and table name")]
         public async Task Install(string identity)
         {
-            var config = settings.GetOrDefault<GatewayDeduplicationConfiguration>() as SqlGatewayDeduplicationConfiguration;
-
-            if (config == null)
+            if (!(settings.GetOrDefault<GatewayDeduplicationConfiguration>() is SqlGatewayDeduplicationConfiguration config))
             {
                 return;
             }

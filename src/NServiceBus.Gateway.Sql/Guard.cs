@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections;
-
-namespace NServiceBus
+﻿namespace NServiceBus
 {
+    using System;
+    using System.Collections;
+
     static class Guard
     {
         public static void AgainstNull(string argumentName, object value)

@@ -1,8 +1,8 @@
-﻿using System;
-using System.Data.Common;
-
-namespace NServiceBus.Gateway.Sql
+﻿namespace NServiceBus.Gateway.Sql
 {
+    using System;
+    using System.Data.Common;
+
     class SqlSettings
     {
         public Func<IServiceProvider, DbConnection> ConnectionBuilder { get; private set; }

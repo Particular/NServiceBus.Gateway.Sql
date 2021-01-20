@@ -24,8 +24,6 @@
 
         public bool IsDuplicate { get; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Security", "CA2100:Review SQL queries for security vulnerabilities",
-            Justification = "String formatting only for schema and table name")]
         public async Task MarkAsDispatched()
         {
             using (var cmd = connection.CreateCommand())
@@ -41,7 +39,7 @@
         }
 
         #region IDisposable Support
-        private bool disposedValue = false; // To detect redundant calls
+        bool disposedValue = false; // To detect redundant calls
 
         protected virtual void Dispose(bool disposing)
         {
