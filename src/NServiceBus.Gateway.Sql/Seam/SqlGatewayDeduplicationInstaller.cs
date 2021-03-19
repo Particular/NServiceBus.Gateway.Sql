@@ -1,10 +1,11 @@
 ﻿namespace NServiceBus.Gateway.Sql
 {
-    using Installation;
-    using Settings;
     using System;
     using System.Data;
+    using System.Threading;
     using System.Threading.Tasks;
+    using Installation;
+    using Settings;
 
     class SqlGatewayDeduplicationInstaller : INeedToInstallSomething
     {
@@ -17,7 +18,7 @@
             this.builder = builder;
         }
 
-        public async Task Install(string identity)
+        public async Task Install(string identity, CancellationToken cancellationToken = default)
         {
             if (!(settings.GetOrDefault<GatewayDeduplicationConfiguration>() is SqlGatewayDeduplicationConfiguration config))
             {
@@ -57,13 +58,13 @@ begin
 end";
             using (var connection = config.connectionBuilder(builder))
             {
-                await connection.OpenAsync().ConfigureAwait(false);
+                await connection.OpenAsync(cancellationToken).ConfigureAwait(false);
                 using (var transaction = connection.BeginTransaction(IsolationLevel.ReadCommitted))
                 using (var cmd = connection.CreateCommand())
                 {
                     cmd.Transaction = transaction;
                     cmd.CommandText = sql;
-                    await cmd.ExecuteNonQueryAsync().ConfigureAwait(false);
+                    await cmd.ExecuteNonQueryAsync(cancellationToken).ConfigureAwait(false);
                     transaction.Commit();
                 }
             }

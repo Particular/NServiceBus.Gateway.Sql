@@ -1,9 +1,10 @@
 ﻿namespace NServiceBus
 {
+    using System.Data.Common;
+    using System.Threading;
+    using System.Threading.Tasks;
     using Gateway;
     using Gateway.Sql;
-    using System.Data.Common;
-    using System.Threading.Tasks;
 
     class SqlDeduplicationSession : IDeduplicationSession
     {
@@ -24,7 +25,7 @@
 
         public bool IsDuplicate { get; }
 
-        public async Task MarkAsDispatched()
+        public async Task MarkAsDispatched(CancellationToken cancellationToken = default)
         {
             using (var cmd = connection.CreateCommand())
             {
@@ -32,7 +33,7 @@
                 cmd.CommandText = settings.MarkDispatchedSql;
                 cmd.AddParameter("Id", messageId);
 
-                await cmd.ExecuteNonQueryAsync().ConfigureAwait(false);
+                await cmd.ExecuteNonQueryAsync(cancellationToken).ConfigureAwait(false);
             }
 
             transaction.Commit();
