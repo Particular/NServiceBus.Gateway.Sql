@@ -31,10 +31,6 @@ jobs:
           SECRETS_AVAILABLE: ${{ secrets.SECRETS_AVAILABLE }}
         shell: pwsh
         run: exit $(If ($env:SECRETS_AVAILABLE -eq 'true') { 0 } Else { 1 })
-      - name: Azure login
-        uses: azure/login@v1.3.0
-        with:
-          creds: ${{ secrets.AZURE_ACI_CREDENTIALS }}
       - name: Checkout
         if: github.event_name != 'pull_request_target'
         uses: actions/checkout@v2.3.4
@@ -65,6 +61,10 @@ jobs:
           name: NuGet packages
           path: nugets/
           retention-days: 7
+      - name: Azure login
+        uses: azure/login@v1.3.0
+        with:
+          creds: ${{ secrets.AZURE_ACI_CREDENTIALS }}
       - name: Setup SQL Server
         id: setup-sql-server
         shell: pwsh
