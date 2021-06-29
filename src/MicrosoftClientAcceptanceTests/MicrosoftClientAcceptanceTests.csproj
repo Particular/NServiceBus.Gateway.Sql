@@ -12,7 +12,7 @@
 
   <ItemGroup>
     <PackageReference Include="NServiceBus.AcceptanceTesting" Version="8.0.0-alpha.940" />
-    <PackageReference Include="NServiceBus.Gateway.AcceptanceTests.Sources" Version="4.0.0-alpha.241" />
+    <PackageReference Include="NServiceBus.Gateway.AcceptanceTests.Sources" Version="4.0.0-alpha.242" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="2.1.2" />
   </ItemGroup>
 
