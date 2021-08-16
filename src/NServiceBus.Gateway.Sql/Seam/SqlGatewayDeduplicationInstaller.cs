@@ -9,10 +9,10 @@
 
     class SqlGatewayDeduplicationInstaller : INeedToInstallSomething
     {
-        readonly ReadOnlySettings settings;
+        readonly IReadOnlySettings settings;
         readonly IServiceProvider builder;
 
-        public SqlGatewayDeduplicationInstaller(ReadOnlySettings settings, IServiceProvider builder)
+        public SqlGatewayDeduplicationInstaller(IReadOnlySettings settings, IServiceProvider builder)
         {
             this.settings = settings;
             this.builder = builder;
