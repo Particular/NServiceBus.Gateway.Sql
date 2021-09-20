@@ -98,4 +98,4 @@ jobs:
         with:
           azcliversion: 2.27.2 # v2.28.0 introduces regression https://github.com/Azure/azure-cli/issues/19489
           inlinescript: |
-            $ignore = az container delete --resource-group GitHubActions-RG --name ${{ steps.setup-sql-server.outputs.sqlinstance }} --yes
+            az container delete --resource-group GitHubActions-RG --name ${{ steps.setup-sql-server.outputs.sqlinstance }} --yes
