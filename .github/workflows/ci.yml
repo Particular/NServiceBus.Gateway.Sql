@@ -5,16 +5,11 @@ on:
       - master
       - release-*
   pull_request:
-  pull_request_target:
   workflow_dispatch:
 env:
   DOTNET_NOLOGO: true
 jobs:
   build:
-    if:
-      (github.event_name == 'pull_request_target' && github.event.pull_request.user.login == 'dependabot[bot]') ||
-      (github.event_name == 'pull_request' && github.event.pull_request.user.login != 'dependabot[bot]') ||
-      github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     name: ${{ matrix.name }}
     runs-on: ${{ matrix.os }}
     strategy:
@@ -26,21 +21,9 @@ jobs:
             name: Linux
       fail-fast: false
     steps:
-      - name: Check for secrets
-        env:
-          SECRETS_AVAILABLE: ${{ secrets.SECRETS_AVAILABLE }}
-        shell: pwsh
-        run: exit $(If ($env:SECRETS_AVAILABLE -eq 'true') { 0 } Else { 1 })
       - name: Checkout
-        if: github.event_name != 'pull_request_target'
-        uses: actions/checkout@v2.3.4
+        uses: actions/checkout@v2.4.0
         with:
-          fetch-depth: 0
-      - name: Checkout for Dependabot
-        if: github.event_name == 'pull_request_target'
-        uses: actions/checkout@v2.3.4
-        with:
-          ref: 'refs/pull/${{ github.event.number }}/merge'
           fetch-depth: 0
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v1.7.2
@@ -50,8 +33,6 @@ jobs:
         uses: actions/setup-dotnet@v1.7.2
         with:
           dotnet-version: 3.1.x
-      - name: Install Particular.GitHubActionsTool
-        run: dotnet tool install -g Particular.GitHubActionsTool --add-source https://www.myget.org/F/particular/api/v3/index.json
       - name: Build
         run: dotnet build src --configuration Release
       - name: Upload packages
@@ -61,41 +42,10 @@ jobs:
           name: NuGet packages
           path: nugets/
           retention-days: 7
-      - name: Azure login
-        uses: azure/login@v1.3.0
+      - name: Install SQL Server
+        uses: Particular/install-sql-server-action@main
         with:
-          creds: ${{ secrets.AZURE_ACI_CREDENTIALS }}
-          enable-AzPSSession: true
-      - name: Setup SQL Server
-        id: setup-sql-server
-        shell: pwsh
-        run: |
-          $name = "psw-mssql-$(Get-Random)"
-          echo "::set-output name=sqlinstance::$name"
-          echo "Creating SQL Server container $name (This can take awhile.)"
-          $details = az container create --image mcr.microsoft.com/mssql/server:2019-CU10-ubuntu-20.04  --name $name --resource-group GitHubActions-RG --cpu 1 --memory 3.5 --port 1433 --ip-address public -e ACCEPT_EULA=Y MSSQL_SA_PASSWORD=${{ secrets.ACI_MSSQL_PASSWORD }} MSSQL_PID=Developer MSSQL_COLLATION=SQL_Latin1_General_CP1_CS_AS MSSQL_ENABLE_HADR=Y --dns-name-label $name | ConvertFrom-Json
-  
-          $sqlfqdn=$details.ipAddress.fqdn
-          echo "::add-mask::$sqlfqdn"
-          
-          echo "Tagging container image"
-          $dateTag = "Created=$(Get-Date -Format "yyyy-MM-dd")"
-          $ignore = az tag create --resource-id $details.id --tags Package=Gateway.Sql RunnerOS=${{ runner.os }} $dateTag
-          
-          actions-tool dbinit mssql --server $sqlfqdn --password ${{ secrets.ACI_MSSQL_PASSWORD }} --env-var-name SQLServerConnectionString
-      - name: Run Windows tests
-        if: matrix.name == 'Windows'
-        # -m:1 parameter prevents test projects from being run in parallel, which causes Gateway port conflicts between System/Microsoft data client tests
-        run: dotnet test src --configuration Release --no-build --logger "GitHubActions;report-warnings=false" -m:1
-      - name: Run Linux tests
-        if: matrix.name == 'Linux'
-        # -m:1 parameter prevents test projects from being run in parallel, which causes Gateway port conflicts between System/Microsoft data client tests
-        run: |
-          dotnet test src --configuration Release --no-build --framework netcoreapp3.1 --logger "GitHubActions;report-warnings=false" -m:1
-          dotnet test src --configuration Release --no-build --framework net5.0 --logger "GitHubActions;report-warnings=false" -m:1
-      - name: Teardown SQL Server
-        if: ${{ always() }}
-        uses: Azure/powershell@v1
-        with:
-          inlineScript: Remove-AzContainerGroup -ResourceGroupName GitHubActions-RG -Name ${{ steps.setup-sql-server.outputs.sqlinstance }}
-          azPSVersion: latest
+          connection-string-env-var: SQLServerConnectionString
+          catalog: nservicebus
+      - name: Run tests
+        uses: Particular/run-tests-action@v1.0.0
