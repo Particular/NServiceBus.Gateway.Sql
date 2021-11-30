@@ -11,7 +11,7 @@ namespace NServiceBus.Gateway.AcceptanceTests
 {
     public partial class GatewayTestSuiteConstraints
     {
-        public Task<GatewayDeduplicationConfiguration> ConfigureDeduplicationStorage(string endpointName, EndpointConfiguration configuration, RunSettings settings)
+        public Task ConfigureDeduplicationStorage(string endpointName, EndpointConfiguration configuration, RunSettings settings)
         {
             var connectionString = DatabaseUtil.GetConnectionString();
 
@@ -19,7 +19,8 @@ namespace NServiceBus.Gateway.AcceptanceTests
             config.TableName = Regex.Replace(endpointName, "[^A-Za-z0-9]+", "") + "_GatewayDeduplication";
             config.ConnectionBuilder(builder => new SqlConnection(connectionString));
 
-            return Task.FromResult<GatewayDeduplicationConfiguration>(config);
+            configuration.Gateway(config);
+            return Task.FromResult(false);
         }
 
         public Task Cleanup()
