@@ -1,16 +1,16 @@
-﻿using NServiceBus.Gateway;
-using NServiceBus.Gateway.Sql;
-using System.Data.Common;
-using System.Threading.Tasks;
-
-namespace NServiceBus
+﻿namespace NServiceBus
 {
+    using System.Data.Common;
+    using System.Threading.Tasks;
+    using NServiceBus.Gateway;
+    using NServiceBus.Gateway.Sql;
+
     class SqlDeduplicationSession : IDeduplicationSession
     {
         readonly string messageId;
         readonly SqlSettings settings;
         readonly DbConnection connection;
-        readonly DbTransaction transaction; 
+        readonly DbTransaction transaction;
 
         public SqlDeduplicationSession(string messageId, SqlSettings settings, bool isDuplicate, DbConnection connection, DbTransaction transaction)
         {
@@ -24,8 +24,6 @@ namespace NServiceBus
 
         public bool IsDuplicate { get; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Security", "CA2100:Review SQL queries for security vulnerabilities",
-            Justification = "String formatting only for schema and table name")]
         public async Task MarkAsDispatched()
         {
             using (var cmd = connection.CreateCommand())
@@ -41,7 +39,7 @@ namespace NServiceBus
         }
 
         #region IDisposable Support
-        private bool disposedValue = false; // To detect redundant calls
+        bool disposedValue = false; // To detect redundant calls
 
         protected virtual void Dispose(bool disposing)
         {
