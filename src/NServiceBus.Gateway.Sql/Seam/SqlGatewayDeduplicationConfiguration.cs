@@ -1,11 +1,11 @@
-﻿using NServiceBus.Gateway;
-using NServiceBus.Gateway.Sql;
-using NServiceBus.ObjectBuilder;
-using System;
-using System.Data.Common;
-
-namespace NServiceBus
+﻿namespace NServiceBus
 {
+    using System;
+    using System.Data.Common;
+    using NServiceBus.Gateway;
+    using NServiceBus.Gateway.Sql;
+    using NServiceBus.ObjectBuilder;
+
     /// <summary>
     /// Configuration class for the SQL gateway deduplication storage
     /// </summary>
@@ -60,7 +60,7 @@ namespace NServiceBus
         /// <inheritdoc />
         public override IGatewayDeduplicationStorage CreateStorage(IBuilder builder)
         {
-            if(connectionBuilder == null)
+            if (connectionBuilder == null)
             {
                 // TODO: Better exception
                 throw new Exception("No connection builder");
