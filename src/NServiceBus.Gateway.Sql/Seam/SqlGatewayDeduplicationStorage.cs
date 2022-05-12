@@ -39,8 +39,6 @@
             return new SqlDeduplicationSession(messageId, settings, isDuplicate, connection, transaction);
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Security", "CA2100:Review SQL queries for security vulnerabilities",
-            Justification = "String formatting only for schema and table name")]
         public async Task<bool> IsDuplicate(DbConnection connection, DbTransaction transaction, string messageId, CancellationToken cancellationToken = default)
         {
             using (var cmd = connection.CreateCommand())
