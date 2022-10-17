@@ -7,7 +7,7 @@ using System.Data.SqlClient;
 
 public static class DatabaseUtil
 {
-    const string ConnectionString = @"Server=localhost\sqlexpress;Database=nservicebus;Trusted_Connection=True;TrustServerCertificate=true;";
+    const string ConnectionString = @"Server=localhost\sqlexpress;Database=nservicebus;Trusted_Connection=True;";
 
     public static SqlConnection Build()
     {
