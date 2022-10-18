@@ -43,6 +43,6 @@ jobs:
         with:
           connection-string-env-var: SQLServerConnectionString
           catalog: nservicebus
-          extra-params: "Encryt=false;"
+          extra-params: "Encrypt=false;"
       - name: Run tests
         uses: Particular/run-tests-action@v1.3.0
