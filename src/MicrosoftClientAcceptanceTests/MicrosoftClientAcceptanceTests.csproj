@@ -23,8 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="..\AcceptanceTestsShared\**\*.cs" Link="Shared\%(RecursiveDir)\%(Filename).%(Extension)" />
-    <None Remove="databus\**\*.*" />
+    <Compile Include="..\AcceptanceTestsShared\**\*.cs" LinkBase="Shared" />
   </ItemGroup>
 
 </Project>
