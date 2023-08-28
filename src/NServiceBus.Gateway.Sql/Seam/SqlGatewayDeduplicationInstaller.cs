@@ -20,16 +20,10 @@
 
         public async Task Install(string identity, CancellationToken cancellationToken = default)
         {
-#pragma warning disable IDE0079 // Remove unnecessary suppression
-#pragma warning disable IDE0078 // Use pattern matching (may change code meaning)
-#pragma warning disable IDE0083 // Use pattern matching
-            if (!(settings.GetOrDefault<GatewayDeduplicationConfiguration>() is SqlGatewayDeduplicationConfiguration config))
+            if (settings.GetOrDefault<GatewayDeduplicationConfiguration>() is not SqlGatewayDeduplicationConfiguration config)
             {
                 return;
             }
-#pragma warning restore IDE0083 // Use pattern matching
-#pragma warning restore IDE0078 // Use pattern matching (may change code meaning)
-#pragma warning restore IDE0079 // Remove unnecessary suppression
 
             var fullName = $"[{config.Schema}].[{config.TableName}]";
 
