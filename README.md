@@ -1,6 +1,6 @@
 # NServiceBus.Gateway.Sql
 
-NServiceBus.Gateway.Sql is the official [NServiceBus Gateway](https://github.com/Particular/NServiceBus.Gateway) persistence implementation for Microsoft SQL Server, supporting both the [System.Data.SqlClient](https://www.nuget.org/packages/System.Data.SqlClient) and [Microsoft.Data.SqlClient](https://www.nuget.org/packages/Microsoft.Data.SqlClient) packages.
+NServiceBus.Gateway.Sql is the official [NServiceBus Gateway](https://github.com/Particular/NServiceBus.Gateway) persistence implementation for [Microsoft SQL Server](http://www.microsoft.com/sqlserver), supporting both the [System.Data.SqlClient](https://www.nuget.org/packages/System.Data.SqlClient) and [Microsoft.Data.SqlClient](https://www.nuget.org/packages/Microsoft.Data.SqlClient) packages.
 
 It is part of the [Particular Service Platform](https://particular.net/service-platform), which includes [NServiceBus](https://particular.net/nservicebus) and tools to build, monitor, and debug distributed systems.
 
