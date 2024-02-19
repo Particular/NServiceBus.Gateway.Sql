@@ -45,4 +45,4 @@ jobs:
           connection-string-env-var: SQLServerConnectionString
           catalog: nservicebus
       - name: Run tests
-        uses: Particular/run-tests-action@v1.6.0
+        uses: Particular/run-tests-action@v1.7.0
