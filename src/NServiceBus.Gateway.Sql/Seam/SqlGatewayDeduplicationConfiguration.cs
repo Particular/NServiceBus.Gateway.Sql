@@ -15,7 +15,7 @@
         string tableName = "GatewayDeduplication";
 
         /// <summary>
-        /// TODO
+        /// Configures a custom connection builder.
         /// </summary>
         public void ConnectionBuilder(Func<DbConnection> connectionBuilder)
         {
@@ -23,7 +23,7 @@
         }
 
         /// <summary>
-        /// TODO
+        /// Configures a custom connection builder.
         /// </summary>
         public void ConnectionBuilder(Func<IServiceProvider, DbConnection> connectionBuilder)
         {
@@ -38,7 +38,7 @@
             get => schema;
             set
             {
-                Guard.AgainstNullAndEmpty(nameof(value), value);
+                ArgumentException.ThrowIfNullOrWhiteSpace(value);
                 schema = value;
             }
         }
@@ -51,7 +51,7 @@
             get => tableName;
             set
             {
-                Guard.AgainstNullAndEmpty(nameof(value), value);
+                ArgumentException.ThrowIfNullOrWhiteSpace(value);
                 tableName = value;
             }
         }
