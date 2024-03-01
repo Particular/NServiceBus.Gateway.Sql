@@ -11,7 +11,7 @@
 
         public SqlSettings(Func<IServiceProvider, DbConnection> connectionBuilder, string schema, string tableName)
         {
-            this.ConnectionBuilder = connectionBuilder;
+            ConnectionBuilder = connectionBuilder;
 
             IsDuplicateSql = $"select top 1 TimeReceived from  [{schema}].[{tableName}] where Id = @Id";
             MarkDispatchedSql = $"insert into [{schema}].[{tableName}] (Id, TimeReceived) values (@Id, GETUTCDATE())";
