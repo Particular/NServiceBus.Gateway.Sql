@@ -1,13 +1,9 @@
 ﻿namespace NServiceBus.Gateway.AcceptanceTests
 {
-#if MicrosoftDataClient
-    using Microsoft.Data.SqlClient;
-#elif SystemDataClient
-    using System.Data.SqlClient;
-#endif
-    using NServiceBus.AcceptanceTesting.Support;
-    using System.Threading.Tasks;
     using System.Text.RegularExpressions;
+    using System.Threading.Tasks;
+    using Microsoft.Data.SqlClient;
+    using NServiceBus.AcceptanceTesting.Support;
 
     public partial class GatewayTestSuiteConstraints
     {

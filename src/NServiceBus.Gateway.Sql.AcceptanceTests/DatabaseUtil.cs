@@ -1,9 +1,5 @@
 using System;
-#if MicrosoftDataClient
 using Microsoft.Data.SqlClient;
-#elif SystemDataClient
-using System.Data.SqlClient;
-#endif
 
 public static class DatabaseUtil
 {
