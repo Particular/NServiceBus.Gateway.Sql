@@ -5,6 +5,7 @@
     <File Path="Custom.Build.props" />
   </Folder>
   <Project Path="NServiceBus.Gateway.Sql.AcceptanceTests/NServiceBus.Gateway.Sql.AcceptanceTests.csproj" />
+  <Project Path="NServiceBus.Gateway.Sql.PersistenceTests/NServiceBus.Gateway.Sql.PersistenceTests.csproj" />
   <Project Path="NServiceBus.Gateway.Sql.Tests/NServiceBus.Gateway.Sql.Tests.csproj" />
   <Project Path="NServiceBus.Gateway.Sql/NServiceBus.Gateway.Sql.csproj" />
 </Solution>
