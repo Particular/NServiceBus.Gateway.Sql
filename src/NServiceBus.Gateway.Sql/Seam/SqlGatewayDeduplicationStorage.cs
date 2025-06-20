@@ -25,8 +25,7 @@
             var connection = settings.ConnectionBuilder(builder);
             await connection.OpenAsync(cancellationToken).ConfigureAwait(false);
 
-            // DbTransaction gets Async overloads starting in netstandard2.1/netcoreapp3.0
-            var transaction = connection.BeginTransaction(IsolationLevel.ReadCommitted);
+            var transaction = await connection.BeginTransactionAsync(IsolationLevel.ReadCommitted, cancellationToken).ConfigureAwait(false);
 
             var distributedTransaction = System.Transactions.Transaction.Current;
             if (distributedTransaction != null)
