@@ -4,7 +4,9 @@
     <File Path="../.github/workflows/release.yml" />
     <File Path="Custom.Build.props" />
   </Folder>
-  <Project Path="NServiceBus.Gateway.Sql.AcceptanceTests/NServiceBus.Gateway.Sql.AcceptanceTests.csproj" />
-  <Project Path="NServiceBus.Gateway.Sql.Tests/NServiceBus.Gateway.Sql.Tests.csproj" />
+  <Folder Name="/Tests/">
+    <Project Path="NServiceBus.Gateway.Sql.AcceptanceTests/NServiceBus.Gateway.Sql.AcceptanceTests.csproj" />
+    <Project Path="NServiceBus.Gateway.Sql.Tests/NServiceBus.Gateway.Sql.Tests.csproj" />
+  </Folder>
   <Project Path="NServiceBus.Gateway.Sql/NServiceBus.Gateway.Sql.csproj" />
 </Solution>
