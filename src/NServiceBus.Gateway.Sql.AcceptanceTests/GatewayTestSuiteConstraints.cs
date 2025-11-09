@@ -15,7 +15,7 @@
             {
                 TableName = Regex.Replace(endpointName, "[^A-Za-z0-9]+", "") + "_GatewayDeduplication"
             };
-            config.ConnectionBuilder(builder => new SqlConnection(connectionString));
+            config.ConnectionBuilder(_ => new SqlConnection(connectionString));
 
             return Task.FromResult<GatewayDeduplicationConfiguration>(config);
         }

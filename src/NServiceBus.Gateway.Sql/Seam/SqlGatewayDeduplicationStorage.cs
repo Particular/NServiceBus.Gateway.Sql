@@ -7,17 +7,8 @@
     using System.Threading.Tasks;
     using Extensibility;
 
-    class SqlGatewayDeduplicationStorage : IGatewayDeduplicationStorage
+    class SqlGatewayDeduplicationStorage(IServiceProvider builder, SqlSettings settings) : IGatewayDeduplicationStorage
     {
-        readonly SqlSettings settings;
-        readonly IServiceProvider builder;
-
-        public SqlGatewayDeduplicationStorage(IServiceProvider builder, SqlSettings settings)
-        {
-            this.builder = builder;
-            this.settings = settings;
-        }
-
         public bool SupportsDistributedTransactions => true;
 
         public async Task<IDeduplicationSession> CheckForDuplicate(string messageId, ContextBag context, CancellationToken cancellationToken = default)
