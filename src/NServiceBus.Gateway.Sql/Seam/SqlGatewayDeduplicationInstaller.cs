@@ -43,13 +43,17 @@ begin
     on {fullName} (TimeReceived asc)
 
 end";
-        using var connection = config.connectionBuilder(serviceProvider);
+
+        var connection = config.connectionBuilder(serviceProvider);
+        await using var _ = connection.ConfigureAwait(false);
         await connection.OpenAsync(cancellationToken).ConfigureAwait(false);
-        using var transaction = await connection.BeginTransactionAsync(IsolationLevel.ReadCommitted, cancellationToken).ConfigureAwait(false);
-        using var cmd = connection.CreateCommand();
+        var transaction = await connection.BeginTransactionAsync(IsolationLevel.ReadCommitted, cancellationToken).ConfigureAwait(false);
+        await using var __ = transaction.ConfigureAwait(false);
+        var cmd = connection.CreateCommand();
+        await using var ___ = cmd.ConfigureAwait(false);
         cmd.Transaction = transaction;
         cmd.CommandText = sql;
         await cmd.ExecuteNonQueryAsync(cancellationToken).ConfigureAwait(false);
-        transaction.Commit();
+        await transaction.CommitAsync(cancellationToken).ConfigureAwait(false);
     }
 }
