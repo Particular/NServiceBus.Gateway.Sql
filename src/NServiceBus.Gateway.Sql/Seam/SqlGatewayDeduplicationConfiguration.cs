@@ -2,8 +2,11 @@
 {
     using System;
     using System.Data.Common;
+    using Features;
     using Gateway;
     using Gateway.Sql;
+    using Microsoft.Extensions.DependencyInjection;
+    using Settings;
 
     /// <summary>
     /// Configuration class for the SQL gateway deduplication storage
@@ -55,17 +58,25 @@
         } = "GatewayDeduplication";
 
         /// <inheritdoc />
-        public override IGatewayDeduplicationStorage CreateStorage(IServiceProvider builder)
+        protected override void EnableFeature(SettingsHolder settings) => settings.EnableFeature<SqlGatewayDeduplication>();
+
+        class SqlGatewayDeduplication : Feature
         {
-            if (connectionBuilder == null)
+            protected override void Setup(FeatureConfigurationContext context)
             {
-                // TODO: Better exception
-                throw new Exception("No connection builder");
+                var configuration = context.Settings.Get<SqlGatewayDeduplicationConfiguration>();
+
+                if (configuration.connectionBuilder == null)
+                {
+                    throw new Exception($"No connection builder was configured. Use {nameof(ConnectionBuilder)}(myConnectionBuilder) to configure one.");
+                }
+
+                var sqlSettings = new SqlSettings(configuration.connectionBuilder, configuration.Schema, configuration.TableName);
+
+                context.Services.AddSingleton<IGatewayDeduplicationStorage>(sp => new SqlGatewayDeduplicationStorage(sp, sqlSettings));
+
+                context.AddInstaller<SqlGatewayDeduplicationInstaller>();
             }
-
-            var sqlSettings = new SqlSettings(connectionBuilder, Schema, TableName);
-
-            return new SqlGatewayDeduplicationStorage(builder, sqlSettings);
         }
     }
 }
