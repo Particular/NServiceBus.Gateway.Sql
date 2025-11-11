@@ -1,64 +1,50 @@
-﻿namespace NServiceBus
+﻿namespace NServiceBus;
+
+using System.Data.Common;
+using System.Threading;
+using System.Threading.Tasks;
+using Gateway;
+using Gateway.Sql;
+
+class SqlDeduplicationSession(
+    string messageId,
+    SqlSettings settings,
+    bool isDuplicate,
+    DbConnection connection,
+    DbTransaction transaction)
+    : IDeduplicationSession
 {
-    using System.Data.Common;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Gateway;
-    using Gateway.Sql;
+    public bool IsDuplicate { get; } = isDuplicate;
 
-    class SqlDeduplicationSession : IDeduplicationSession
+    public async Task MarkAsDispatched(CancellationToken cancellationToken = default)
     {
-        readonly string messageId;
-        readonly SqlSettings settings;
-        readonly DbConnection connection;
-        readonly DbTransaction transaction;
-
-        public SqlDeduplicationSession(string messageId, SqlSettings settings, bool isDuplicate, DbConnection connection, DbTransaction transaction)
+        var cmd = connection.CreateCommand();
+        await using (cmd.ConfigureAwait(false))
         {
-            this.messageId = messageId;
-            this.settings = settings;
-            this.connection = connection;
-            this.transaction = transaction;
+            cmd.Transaction = transaction;
+            cmd.CommandText = settings.MarkDispatchedSql;
+            cmd.AddParameter("Id", messageId);
 
-            IsDuplicate = isDuplicate;
+            await cmd.ExecuteNonQueryAsync(cancellationToken).ConfigureAwait(false);
         }
 
-        public bool IsDuplicate { get; }
-
-        public async Task MarkAsDispatched(CancellationToken cancellationToken = default)
-        {
-            using (var cmd = connection.CreateCommand())
-            {
-                cmd.Transaction = transaction;
-                cmd.CommandText = settings.MarkDispatchedSql;
-                cmd.AddParameter("Id", messageId);
-
-                await cmd.ExecuteNonQueryAsync(cancellationToken).ConfigureAwait(false);
-            }
-
-            transaction.Commit();
-        }
-
-        #region IDisposable Support
-        bool disposedValue = false; // To detect redundant calls
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposedValue)
-            {
-                if (disposing)
-                {
-                    transaction?.Dispose();
-                    connection?.Dispose();
-                }
-                disposedValue = true;
-            }
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-        }
-        #endregion
+        await transaction.CommitAsync(cancellationToken).ConfigureAwait(false);
     }
+
+    bool disposedValue = false; // To detect redundant calls
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!disposedValue)
+        {
+            if (disposing)
+            {
+                transaction?.Dispose();
+                connection?.Dispose();
+            }
+            disposedValue = true;
+        }
+    }
+
+    public void Dispose() => Dispose(true);
 }

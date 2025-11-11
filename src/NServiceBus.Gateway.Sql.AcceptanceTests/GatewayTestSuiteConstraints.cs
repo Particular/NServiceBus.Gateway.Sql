@@ -7,7 +7,7 @@
 
     public partial class GatewayTestSuiteConstraints
     {
-        public Task<GatewayDeduplicationConfiguration> ConfigureDeduplicationStorage(string endpointName, EndpointConfiguration configuration, RunSettings settings)
+        public GatewaySettings ConfigureGateway(string endpointName, EndpointConfiguration configuration, RunSettings settings)
         {
             var connectionString = DatabaseUtil.GetConnectionString();
 
@@ -15,14 +15,12 @@
             {
                 TableName = Regex.Replace(endpointName, "[^A-Za-z0-9]+", "") + "_GatewayDeduplication"
             };
-            config.ConnectionBuilder(builder => new SqlConnection(connectionString));
 
-            return Task.FromResult<GatewayDeduplicationConfiguration>(config);
+            config.ConnectionBuilder(_ => new SqlConnection(connectionString));
+
+            return configuration.Gateway(config);
         }
 
-        public Task Cleanup()
-        {
-            return Task.FromResult(false);
-        }
+        public Task Cleanup() => Task.CompletedTask;
     }
 }

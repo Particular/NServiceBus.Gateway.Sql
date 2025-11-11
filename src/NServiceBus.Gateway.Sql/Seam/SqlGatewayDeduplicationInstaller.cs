@@ -1,33 +1,20 @@
-﻿namespace NServiceBus.Gateway.Sql
+﻿namespace NServiceBus.Gateway.Sql;
+
+using System;
+using System.Data;
+using System.Threading;
+using System.Threading.Tasks;
+using Installation;
+using Settings;
+
+class SqlGatewayDeduplicationInstaller(IReadOnlySettings settings, IServiceProvider serviceProvider) : INeedToInstallSomething
 {
-    using System;
-    using System.Data;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Installation;
-    using Settings;
-
-    class SqlGatewayDeduplicationInstaller : INeedToInstallSomething
+    public async Task Install(string identity, CancellationToken cancellationToken = default)
     {
-        readonly IReadOnlySettings settings;
-        readonly IServiceProvider builder;
+        var config = settings.Get<SqlGatewayDeduplicationConfiguration>();
+        var fullName = $"[{config.Schema}].[{config.TableName}]";
 
-        public SqlGatewayDeduplicationInstaller(IReadOnlySettings settings, IServiceProvider builder)
-        {
-            this.settings = settings;
-            this.builder = builder;
-        }
-
-        public async Task Install(string identity, CancellationToken cancellationToken = default)
-        {
-            if (settings.GetOrDefault<GatewayDeduplicationConfiguration>() is not SqlGatewayDeduplicationConfiguration config)
-            {
-                return;
-            }
-
-            var fullName = $"[{config.Schema}].[{config.TableName}]";
-
-            var sql = $@"
+        var sql = $@"
 if not exists (
     select * from sys.objects
     where
@@ -56,14 +43,17 @@ begin
     on {fullName} (TimeReceived asc)
 
 end";
-            using var connection = config.connectionBuilder(builder);
-            await connection.OpenAsync(cancellationToken).ConfigureAwait(false);
-            using var transaction = await connection.BeginTransactionAsync(IsolationLevel.ReadCommitted, cancellationToken).ConfigureAwait(false);
-            using var cmd = connection.CreateCommand();
-            cmd.Transaction = transaction;
-            cmd.CommandText = sql;
-            await cmd.ExecuteNonQueryAsync(cancellationToken).ConfigureAwait(false);
-            transaction.Commit();
-        }
+
+        var connection = config.connectionBuilder(serviceProvider);
+        await using var _ = connection.ConfigureAwait(false);
+        await connection.OpenAsync(cancellationToken).ConfigureAwait(false);
+        var transaction = await connection.BeginTransactionAsync(IsolationLevel.ReadCommitted, cancellationToken).ConfigureAwait(false);
+        await using var __ = transaction.ConfigureAwait(false);
+        var cmd = connection.CreateCommand();
+        await using var ___ = cmd.ConfigureAwait(false);
+        cmd.Transaction = transaction;
+        cmd.CommandText = sql;
+        await cmd.ExecuteNonQueryAsync(cancellationToken).ConfigureAwait(false);
+        await transaction.CommitAsync(cancellationToken).ConfigureAwait(false);
     }
 }
