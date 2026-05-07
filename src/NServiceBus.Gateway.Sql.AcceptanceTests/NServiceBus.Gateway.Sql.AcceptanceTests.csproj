@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -18,7 +18,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.4" />
-    <PackageReference Include="NServiceBus.AcceptanceTesting" Version="10.1.4" />
+    <PackageReference Include="NServiceBus.AcceptanceTesting" Version="10.2.0-alpha.8" />
     <PackageReference Include="NServiceBus.Gateway.AcceptanceTests.Sources" Version="6.0.0" />
   </ItemGroup>
 
