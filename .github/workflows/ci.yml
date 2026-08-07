@@ -32,6 +32,8 @@ jobs:
         uses: actions/setup-dotnet@v6.0.0
         with:
           global-json-file: global.json
+      - name: Setup WSL
+        uses: Particular/setup-wsl-action@v1.0.0
       - name: Build
         run: dotnet build src --configuration Release
       - name: Upload packages
