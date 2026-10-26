@@ -21,5 +21,9 @@
     <PackageReference Include="NServiceBus.AcceptanceTesting" Version="10.2.9" />
     <PackageReference Include="NServiceBus.Gateway.AcceptanceTests.Sources" Version="6.1.0" />
   </ItemGroup>
+  
+  <ItemGroup Label="Direct references to transitive dependencies to avoid versions with CVE">
+    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="10.0.13" />
+  </ItemGroup>
 
 </Project>
